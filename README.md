@@ -55,3 +55,8 @@ In preparation for service migration to Azure, we established a core network bac
 - [x] Bidirectional peering status is `Connected`.
 - [x] SSH access is successful from the whitelisted IP.
 - [x] SSH connection fails (Timeout) when attempting to connect from a different network/IP.
+
+## Verification 
+<img width="722" height="329" alt="image" src="https://github.com/user-attachments/assets/5d942e83-b002-49a9-a525-3fd142777907" />
+<img width="792" height="201" alt="image" src="https://github.com/user-attachments/assets/e203277e-d330-410d-9220-b6c935c263f4" />
+
