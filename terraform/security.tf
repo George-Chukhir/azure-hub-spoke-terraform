@@ -3,9 +3,11 @@ data "http" "my_public_ip" {
 }
 
 resource "azurerm_network_security_group" "nsg"{
-    name = "${var.prefixes[1]}-nsg"
+    count = length(var.prefixes)
+
+    name = "${var.prefixes[count.index]}-nsg"
     location = var.location
-    resource_group_name = azurerm_resource_group.rg[1].name
+    resource_group_name = azurerm_resource_group.rg[count.index].name
 
     security_rule {
         name = "Allow-SSH"
@@ -19,10 +21,12 @@ resource "azurerm_network_security_group" "nsg"{
         destination_address_prefix = "*"
     }    
 
-    tags = local.final_tags["prod"]
+    tags = local.final_tags[var.prefixes[count.index]]
 }
 
 resource "azurerm_subnet_network_security_group_association" "subnet_nsg_assoc" {
-    subnet_id = azurerm_subnet.subnet.id
-    network_security_group_id = azurerm_network_security_group.nsg.id
+    count = length(var.prefixes)
+
+    subnet_id = azurerm_subnet.subnet[count.index].id
+    network_security_group_id = azurerm_network_security_group.nsg[count.index].id
 }

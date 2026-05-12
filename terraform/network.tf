@@ -24,12 +24,14 @@ resource "azurerm_virtual_network_peering" "peering" {
 
 
 resource "azurerm_subnet" "subnet" {
-    name = "${var.prefixes[1]}-subnet"
-    resource_group_name = azurerm_resource_group.rg[1].name
-    virtual_network_name = azurerm_virtual_network.vnet[1].name
+    count = length(var.prefixes)
+    
+    name = "${var.prefixes[count.index]}-subnet"
+    resource_group_name = azurerm_resource_group.rg[count.index].name
+    virtual_network_name = azurerm_virtual_network.vnet[count.index].name
     address_prefixes = [ 
         cidrsubnet(
-            azurerm_virtual_network.vnet[1].address_space[0], 
+            azurerm_virtual_network.vnet[count.index].address_space[0], 
             13, # add 13 bits to the mask 
             0 # first ip of subnet
         )
